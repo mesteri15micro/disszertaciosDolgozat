@@ -1,0 +1,14 @@
+# Function to close the window
+def close_window():
+    try:
+        window.destroy()
+
+        # Close the matplotlib figure if it exists
+        if fig is not None:
+            plt.close(fig)
+
+        # Destroy the canvas widget if it exists
+        if canvas is not None:
+            canvas.get_tk_widget().destroy()
+    except tk.TclError:
+        pass
