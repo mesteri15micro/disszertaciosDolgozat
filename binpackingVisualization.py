@@ -1,13 +1,4 @@
-import tkinter as tk
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 import matplotlib.pyplot as plt
-
-# Function to close the window
-def close_window():
-    window.destroy()
-
-    # Close the matplotlib figure
-    plt.close(fig)
 
 # Function to perform the binpacking algorithm
 def binPacking(items, binCapacity):
@@ -35,11 +26,7 @@ binCapacity = 50
 # Perform binpacking
 bins = binPacking(items, binCapacity)
 
-# Create a Tkinter window
-window = tk.Tk()
-window.title("Binpacking Visualization")
-
-# Create a matplotlib figure
+# Plotting the bins
 fig, ax = plt.subplots()
 ax.set_title('Binpacking Visualization')
 ax.set_xlabel('Bin')
@@ -56,14 +43,4 @@ for i, bin in enumerate(bins):
 # Set the y-axis limit
 ax.set_ylim(0.5, len(bins) + 0.5)
 
-# Create a canvas to display the matplotlib figure in the Tkinter window
-canvas = FigureCanvasTkAgg(fig, master=window)
-canvas.draw()
-canvas.get_tk_widget().pack()
-
-# Add Exit button
-exit_button = tk.Button(window, text="Exit", command=close_window)
-exit_button.pack()
-
-# Start the Tkinter event loop
-window.mainloop()
+plt.show()
