@@ -1,6 +1,5 @@
 import multiprocessing
 import networkx as nx
-import time
 
 def binPacking(items, binCapacity):
     bins = []
@@ -22,13 +21,11 @@ def binPackingParallel(items, binCapacity):
     num_processors = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(num_processors)
     chunk_size = max(len(items) // num_processors, 1)
-    start = time.time()
     results = pool.starmap(binPacking, [(items[i:i+chunk_size], binCapacity) for i in range(0, len(items), chunk_size)])
-    end = time.time()
     pool.close()
     pool.join()
     bins = [bin for sublist in results for bin in sublist]
-    return bins, end - start
+    return bins
 
 def knapsack(items, capacity):
     num_items = len(items)
@@ -56,81 +53,66 @@ def knapsackParallel(items, capacity):
     num_processors = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(num_processors)
     chunk_size = max(len(items) // num_processors, 1)
-    start = time.time()
     results = pool.starmap(knapsack, [(items[i:i+chunk_size], capacity) for i in range(0, len(items), chunk_size)])
-    end = time.time()
     pool.close()
     pool.join()
     max_value = max(result[0] for result in results)
     selected_items = [item for sublist in [result[1] for result in results] for item in sublist]
-    return max_value, selected_items, end - start
+    return max_value, selected_items
 
 def graphColoring(graph):
-    start = time.time()
     coloring = nx.greedy_color(graph, strategy='largest_first')
-    end = time.time()
-    return coloring, end - start
+    return coloring
 
 def graphColoringParallel(graph):
     num_processors = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(num_processors)
-    start = time.time()
     results = pool.map(graphColoring, [graph] * num_processors)
-    end = time.time()
     pool.close()
     pool.join()
-    coloring = max(results, key=lambda x: len(x[0]))
-    return coloring[0], end - start
+    coloring = max(results, key=lambda x: len(x))
+    return coloring
 
 def hamiltonianCycle(graph):
-    start = time.time()
     hamiltonian_cycle = nx.algorithms.approximation.traveling_salesman_problem(graph, weight='weight')
-    end = time.time()
-    return hamiltonian_cycle, end - start
+    return hamiltonian_cycle
 
 def hamiltonianCycleParallel(graph):
     num_processors = multiprocessing.cpu_count()
     pool = multiprocessing.Pool(num_processors)
-    start = time.time()
     results = pool.map(hamiltonianCycle, [graph] * num_processors)
-    end = time.time()
     pool.close()
     pool.join()
     hamiltonian_cycle = min(results, key=len)
-    return hamiltonian_cycle, end - start
+    return hamiltonian_cycle
 
 if __name__ == '__main__':
     # Example usage
     items = [4, 8, 1, 2, 7, 5]
     binCapacity = 10
     print("Bin Packing:")
-    bins, bin_packing_time = binPackingParallel(items, binCapacity)
+    bins = binPackingParallel(items, binCapacity)
     for i, bin in enumerate(bins):
         print(f"Bin {i+1}: {bin['items']}")
-    print("Bin Packing Time:", bin_packing_time)
     print()
-
+    
     items = [(2, 3), (3, 4), (4, 5), (5, 6)]
     capacity = 8
     print("Knapsack:")
-    max_value, selected_items, knapsack_time = knapsackParallel(items, capacity)
+    max_value, selected_items = knapsackParallel(items, capacity)
     print("Max Value:", max_value)
     print("Selected Items:", selected_items)
-    print("Knapsack Time:", knapsack_time)
     print()
-
+    
     graph = nx.Graph()
     graph.add_edges_from([(1, 2), (1, 3), (2, 3), (2, 4), (3, 4)])
     print("Graph Coloring:")
-    coloring, coloring_time = graphColoringParallel(graph)
+    coloring = graphColoringParallel(graph)
     print("Coloring:", coloring)
-    print("Graph Coloring Time:", coloring_time)
     print()
-
+    
     graph = nx.Graph()
     graph.add_edges_from([(1, 2), (2, 3), (3, 4), (4, 1)])
     print("Hamiltonian Cycle:")
-    hamiltonian_cycle, hamiltonian_time = hamiltonianCycleParallel(graph)
+    hamiltonian_cycle = hamiltonianCycleParallel(graph)
     print("Hamiltonian Cycle:", hamiltonian_cycle)
-    print("Hamiltonian Cycle Time:", hamiltonian_time)
-    print()

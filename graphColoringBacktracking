@@ -1,0 +1,70 @@
+import time
+
+MAXN = 10100  # Maximum number of vertices
+
+n = 0  # Number of vertices
+adj = [[] for _ in range(MAXN)]  # Adjacency list of the graph
+color = [0] * MAXN  # Array of vertex colors
+
+
+def isSafe(v, c):
+    for u in adj[v]:
+        if color[u] == c:
+            return False
+    return True
+
+
+def graphColoringUtil(v):
+    if v == n + 1:
+        return True
+
+    for c in range(1, n + 1):
+        if isSafe(v, c):
+            color[v] = c
+            if graphColoringUtil(v + 1):
+                return True
+            color[v] = 0  # backtrack
+
+    return False
+
+
+def getColorCount():
+    colorSet = set(color[1:n+1])
+    return len(colorSet)
+
+
+if __name__ == "__main__":
+    with open("graphcoloring_rand_10000.in", "r") as fin, open("graphcoloring_rand_10000.out", "w") as fout:
+        start = time.time()
+        
+        # Read input
+        m = 0  # Number of edges
+        n, m = map(int, fin.readline().split())
+        print(f"n={n}\t\tm={m}")
+
+        for _ in range(m):
+            u, v = map(int, fin.readline().split())
+            print(f"u {_ + 1} = {u}\t\tv {_ + 1} = {v}")
+            adj[u].append(v)
+            adj[v].append(u)
+
+        numColors = 1  # Initial number of colors
+
+        while not graphColoringUtil(1):
+            numColors += 1  # Increase the number of colors if a valid coloring is not found
+
+        print()
+
+        elapsedTime = time.time() - start
+
+        # Print colors
+        for i in range(1, n + 1):
+            fout.write(f"Vertex {i} is colored {color[i]}\n")
+            print(f"Vertex {i} is colored {color[i]}")
+
+        colorCount = getColorCount()
+        print("Number of colors needed:", colorCount)
+        fout.write("Number of colors needed: " + str(colorCount) + "\n")
+
+        print("Elapsed time (seconds):", elapsedTime)
+        fout.write("Elapsed time (seconds): " + str(elapsedTime) + "\n")
