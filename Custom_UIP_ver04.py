@@ -15,23 +15,23 @@ def handle_click():
 
     # Perform actions based on user selections
     if selected_task == "binpackingVisualization":
-        subprocess.Popen(["python", "binpackingVisualization.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        subprocess.Popen(["python", "binpackingVisualization.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
     elif selected_task == "Cristofides_Visualization":
-        subprocess.Popen(["python", "Cristofides_Visualization.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        subprocess.Popen(["python", "Cristofides_Visualization.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
     elif selected_task == "graphColoringVisualization":
-        subprocess.Popen(["python", "graphColoringVisualization.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        subprocess.Popen(["python", "graphColoringVisualization.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
     elif selected_task == "hamiltonCircleVisualization":
-        subprocess.Popen(["python", "hamiltonCircleVisualization.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        subprocess.Popen(["python", "hamiltonCircleVisualization.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
     elif selected_task == "knapsackVisualization":
-        subprocess.Popen(["python", "knapsackVisualization.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        subprocess.Popen(["python", "knapsackVisualization.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
     elif selected_task == "TSP_Visualization":
-        subprocess.Popen(["python", "TSP_Visualization.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        subprocess.Popen(["python", "TSP_Visualization.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
     elif selected_task == "dodekaeder":
-        subprocess.Popen(["python", "dodekaeder.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        subprocess.Popen(["python", "dodekaeder.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
     elif selected_task == "visualize_cnf_satisfiability":
-        subprocess.Popen(["python", "CNF_SatisfiabilityVisualization.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)
+        subprocess.Popen(["python", "CNF_SatisfiabilityVisualization.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)
     elif selected_task == "parhuzamosProgramozasNPTeljesFeladatokra4":
-        subprocess.Popen(["python", "parhuzamosProgramozasNPTeljesFeladatokra4.py"], creationflags=subprocess.CREATE_NEW_CONSOLE)            
+        subprocess.Popen(["python", "parhuzamosProgramozasNPTeljesFeladatokra4.py", input_file], creationflags=subprocess.CREATE_NEW_CONSOLE)            
 
 # Create the main window
 window = tk.Tk()
