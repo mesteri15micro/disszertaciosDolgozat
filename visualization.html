@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Binpacking Visualization</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Make a request to fetch the algorithm data
+            $.getJSON("/data", function(data) {
+                // Access the algorithm data and perform visualization with JavaScript
+                var canvas = document.getElementById('canvas');
+                var ctx = canvas.getContext('2d');
+
+                var binHeight = 40;
+                var binSpacing = 10;
+                var itemHeight = 20;
+                var itemSpacing = 5;
+                var xMargin = 20;
+                var yMargin = 20;
+
+                for (var i = 0; i < data.length; i++) {
+                    var bin = data[i];
+                    var y = i * (binHeight + binSpacing) + yMargin;
+
+                    for (var j = 0; j < bin.items.length; j++) {
+                        var item = bin.items[j];
+                        var x = j * (itemHeight + itemSpacing) + xMargin;
+
+                        ctx.fillStyle = 'blue';
+                        ctx.fillRect(x, y, itemHeight, binHeight);
+
+                        ctx.fillStyle = 'white';
+                        ctx.font = '12px Arial';
+                        ctx.textAlign = 'center';
+                        ctx.textBaseline = 'middle';
+                        ctx.fillText(item, x + itemHeight / 2, y + binHeight / 2);
+                    }
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <h1>Binpacking Visualization</h1>
+    <canvas id="canvas" width="800" height="400"></canvas>
+</body>
+</html>
