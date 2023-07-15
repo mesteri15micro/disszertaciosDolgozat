@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>NP-Complete Task Visualization</title>
+</head>
+<body>
+    <h1>Select NP-Complete Task</h1>
+    <form method="post">
+        <select name="task">
+            {% for task in tasks %}
+            <option value="{{ task }}">{{ task }}</option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <input type="submit" value="Start">
+    </form>
+</body>
+</html>
